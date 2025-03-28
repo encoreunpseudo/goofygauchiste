@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoofyGauchiste.fr - Phrases de drague de gauche</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e53935;
+            --secondary-color: #3d3d3d;
+            --bg-color: #f6f6f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --highlight-color: #f44336;
+            --success-color: #4CAF50;
+            --border-radius: 12px;
+            --shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f44336 0%, #f44336 25%, #191919 25%, #191919 50%, #f44336 50%, #f44336 75%, #191919 75%, #191919 100%);
+            background-size: 40px 40px;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            max-width: 800px;
+            width: 95%;
+            text-align: center;
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        h1 {
+            font-family: 'Space Mono', monospace;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2.8em;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.08);
+            letter-spacing: -1px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            margin-bottom: 40px;
+            color: var(--secondary-color);
+            font-size: 1.1em;
+        }
+        
+        .quote-box {
+            background-color: #f9f9f9;
+            border-left: 5px solid var(--primary-color);
+            padding: 25px;
+            margin: 30px 0;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            font-size: 1.3em;
+            text-align: left;
+            transition: all 0.4s ease;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            line-height: 1.5;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 3em;
+            color: rgba(0,0,0,0.05);
+            font-family: Georgia, serif;
+        }
+        
+        .quote-signature {
+            display: block;
+            font-size: 0.8em;
+            font-style: italic;
+            color: #777;
+            margin-top: 12px;
+            align-self: flex-end;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        button:hover {
+            background-color: #c62828;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 0.85em;
+            color: #777;
+        }
+        
+        .loading-message {
+            font-style: italic;
+            color: #888;
+        }
+        
+        .tab-container {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .form-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            .quote-box {
+                font-size: 1.1em;
+                padding: 20px;
+                min-height: 100px;
+            }
+            
+            button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            
+            .form-frame {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GoofyGauchiste.fr</h1>
+        <p class="subtitle">Le flirt au service du peuple</p>
+        
+        <div class="quote-box" id="quote">
+            <span class="loading-message">Chargement des phrases ...</span>
+        </div>
+        
+        <button id="generate-btn" disabled>NOUVELLE PHRASE</button>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="submit">Proposer une phrase</div>
+                <div class="tab" data-tab="about">À propos</div>
+            </div>
+            
+            <div class="tab-content active" id="submit-tab">
+                <!-- Remplacez l'URL ci-dessous par l'URL de votre formulaire Framaforms -->
+                <p>Contribue et propose ta phrase :</p>
+                <iframe class="form-frame" src="https://framaforms.org/es-tu-goofy-1743170924"></iframe>
+            </div>
+            
+            <div class="tab-content" id="about-tab">
+                <h3>À propos de GoofyGauchiste</h3>
+                <p style="margin: 20px 0; line-height: 1.6;">
+                    Ce site est une aide pour nos camarades parfois pas trop doué-e-s lorsqu'il s'agit de flirter.
+                </p>
+                <p style="margin-bottom: 20px; line-height: 1.6;">
+                    N'hésitez pas à contribuer.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>⚠️ ATTENTION : Nous ne sommes pas responsable si vous vous faites recaler.</p>
+        </div>
+    </div>
+
+    <script>
+        // Références aux éléments DOM
+        const quoteBox = document.getElementById('quote');
+        const generateBtn = document.getElementById('generate-btn');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Variables pour stocker les données
+        let phrases = [];
+        let phrasesWithAuthors = []; // Phrases avec auteurs
+        
+        // Fonction pour charger le fichier CSV
+        function loadPhrasesFromCSV() {
+            // Configuration de Papa Parse
+            Papa.parse('phrases.csv', {
+                download: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    // Vérification si le CSV a été chargé avec succès
+                    if (results.data && results.data.length > 0) {
+                        // Transformation des données
+                        phrasesWithAuthors = results.data.map(row => {
+                            // Format attendu: [phrase, pseudonyme]
+                            if (row.length >= 2) {
+                                return {
+                                    text: row[0],
+                                    author: row[1] || 'Anonyme'
+                                };
+                            } else {
+                                return {
+                                    text: row[0],
+                                    author: 'Anonyme'
+                                };
+                            }
+                        });
+                        
+                        // Version simple des phrases pour la compatibilité
+                        phrases = phrasesWithAuthors.map(item => item.text);
+                        
+                        // Affichage de la première phrase
+                        displayRandomPhrase();
+                        
+                        // Activation du bouton
+                        generateBtn.disabled = false;
+                    } else {
+                        // En cas d'erreur ou si le CSV est vide
+                        quoteBox.innerHTML = "Impossible de charger les phrases. Vérifiez le format du fichier CSV.";
+                    }
+                },
+                error: function(error) {
+                    // Gestion des erreurs de chargement
+                    console.error("Erreur lors du chargement du CSV:", error);
+                    quoteBox.innerHTML = "Erreur lors du chargement des phrases. Vérifiez que le fichier 'phrases.csv' existe.";
+                }
+            });
+        }
+        
+        // Fonction pour afficher une phrase aléatoire
+        function displayRandomPhrase() {
+            if (phrasesWithAuthors.length > 0) {
+                const randomIndex = Math.floor(Math.random() * phrasesWithAuthors.length);
+                const randomPhrase = phrasesWithAuthors[randomIndex];
+                
+                // Préparation du contenu avec la signature
+                const phraseHTML = `
+                    <span class="quote-text">${randomPhrase.text}</span>
+                    <span class="quote-signature">— ${randomPhrase.author}</span>
+                `;
+                
+                // Animation simple
+                quoteBox.style.opacity = 0;
+                setTimeout(() => {
+                    quoteBox.innerHTML = phraseHTML;
+                    quoteBox.style.opacity = 1;
+                }, 300);
+            } else {
+                quoteBox.textContent = "Aucune phrase disponible.";
+            }
+        }
+        
+        // Fonction pour changer d'onglet
+        function switchTab(tabId) {
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === tabId + '-tab') {
+                    content.classList.add('active');
+                }
+            });
+        }
+        
+        // Événements
+        generateBtn.addEventListener('click', displayRandomPhrase);
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                switchTab(tabId);
+            });
+        });
+        
+        // Chargement initial
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPhrasesFromCSV();
+        });
+    </script>
+</body>
+</html>
